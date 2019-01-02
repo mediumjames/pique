@@ -14,8 +14,6 @@ def cleanCSV(infileName, outfileName):
             print('CSV located at %s could not be read' %(infileName))
             raise SystemExit
 
-        for row in reader:
-            print(row)
 
         # quick outfileName check
         if outfileName[-4:] != '.csv':
@@ -24,10 +22,11 @@ def cleanCSV(infileName, outfileName):
 
         outfile = open(outfileName, 'w')
         for row in reader:
-            json.dump(row, outfile)
+            print(row)
+            outfile.write(row)
             outfile.write('\n')
 
-def main():
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Converts raw csv to more manageable clean csv')
     parser.add_argument('infile', help='name of any comma delimited file to clean')
     parser.add_argument('-o', '--outfile', help='name of the csv file to write to, defaults to prefix of csv')
@@ -41,10 +40,6 @@ def main():
         args.outfile += '_clean.csv'
 
     # make sure filename given ends in .JSON
-
     print('Cleaning %s...' %(args.infile))
     cleanCSV(args.infile, args.outfile)
     print('Done. Converted to %s' %(args.outfile))
-
-if __name__ == "__main__":
-    main()
