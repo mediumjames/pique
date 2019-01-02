@@ -2,7 +2,7 @@ import json
 import argparse
 
 def gimme(obj, highs=False, lows=False, orders=None):
-    with open('../data/'+obj+'.json') as infile:
+    with open('./data/'+obj+'.json') as infile:
         try:
             obj = json.load(infile)
         except:
@@ -14,12 +14,12 @@ def gimme(obj, highs=False, lows=False, orders=None):
         output["Highs"] = {}
         if orders != None:
             for order in orders:
+                hind = []
                 output["Highs"][order] = {}
                 try:
                     hind = obj["Highs"][order]
                 except:
-                    print("Order requested too high")
-                    raise SystemExit
+                    print("Order requested too high for highs")
 
                 for i in range(len(hind)):
                     output["Highs"][order][hind[i]] = obj["Data"][hind[i]]
@@ -33,12 +33,12 @@ def gimme(obj, highs=False, lows=False, orders=None):
         output["Lows"] = {}
         if orders != None:
             for order in orders:
+                lind = []
                 output["Lows"][order] = {}
                 try:
                     lind = obj["Lows"][order]
                 except:
-                    print("Order requested too high")
-                    raise SystemExit
+                    print("Order requested too high for lows")
 
                 for i in range(len(lind)):
                     output["Lows"][order][lind[i]] = obj["Data"][lind[i]]
@@ -51,7 +51,7 @@ def gimme(obj, highs=False, lows=False, orders=None):
     return output
 
 
-def main():
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='gives information about price data')
     parser.add_argument('thing', help='name of the stock/commodity')
     parser.add_argument('-or', '--orders', nargs='*', help='specifies order of high or low')
@@ -62,6 +62,3 @@ def main():
 
     print(json.dumps(   gimme(args.thing, highs=args.highs, lows=args.lows, orders=args.orders),
                         sort_keys=True, indent=4, separators=(',', ': ')))
-
-if __name__ == "__main__":
-    main()

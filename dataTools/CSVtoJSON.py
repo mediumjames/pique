@@ -40,7 +40,8 @@ def CSVtoJSON(infileName, outfileName):
         json.dump(content, outfile, sort_keys=True, indent=4, separators=(',', ': '))
         outfile.write('\n')
 
-def main():
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Converts raw csv to more manageable OHLC json')
     parser.add_argument('infile', help='name of any comma delimited file to convert to json OHLC')
     parser.add_argument('-o', '--outfile', help='name of the json file to write to, defaults to prefix of csv')
@@ -56,6 +57,3 @@ def main():
     print('Converting %s to JSON...' %(args.infile))
     CSVtoJSON(args.infile, args.outfile)
     print('Done. Converted to %s' %(args.outfile))
-
-if __name__ == "__main__":
-    main()
